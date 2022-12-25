@@ -12,7 +12,10 @@ user_key = os.getenv('PUSHOVER_USER_KEY')
 if not user_key:
     raise Exception('PUSHOVER_USER_KEY not set!')
 
-filename = "/tmp/festool_state.txt"
+filename = os.getenv('STATE_FILE_PATH')
+if not filename:
+    raise Exception('STATE_FILE_PATH not set!')
+
 if not os.path.exists(filename):
     open(filename, 'w+').close()
     with open(filename, 'a') as f:
@@ -21,7 +24,6 @@ if not os.path.exists(filename):
 filecontent = ""
 with open(filename,'r') as f:
     filecontent = f.read()
-
 
 # requesting to get the content of the url
 r = requests.get(url)
