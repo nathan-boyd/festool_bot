@@ -1,10 +1,17 @@
 FROM python:3.6-slim
 
-RUN pip install requests \
-        bs4
+RUN pip install requests bs4
+
+#Install Cron
+RUN apt-get update
+RUN apt-get -y install cron
 
 WORKDIR /app
+COPY check_site.py .
+COPY container_entrypoint.sh .
 
-ADD cron.py /app
+COPY crontab /etc/cron.d/check-site-cron
+RUN chmod 0644 /etc/cron.d/check-site-cron
+RUN touch /var/log/cron.log
 
-CMD ["python", "./cron.py"]
+CMD /app/container_entrypoint.sh

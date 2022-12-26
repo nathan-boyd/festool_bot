@@ -4,8 +4,11 @@ from bs4 import BeautifulSoup
 import logging
 import sys
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-logger = logging.getLogger()
+logging.basicConfig(stream=sys.stdout,
+                    level=logging.DEBUG,
+                    format='%(asctime)s | %(name)s | %(levelname)s | %(message)s')
+
+logger = logging.getLogger('check_site')
 
 app_token = os.environ['PUSHOVER_APP_TOKEN']
 user_key = os.environ['PUSHOVER_USER_KEY']
