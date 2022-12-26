@@ -1,6 +1,11 @@
 import requests
 import os
 from bs4 import BeautifulSoup
+import logging
+import sys
+
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logger = logging.getLogger()
 
 app_token = os.environ['PUSHOVER_APP_TOKEN']
 user_key = os.environ['PUSHOVER_USER_KEY']
@@ -18,23 +23,23 @@ with open(filename,'r') as f:
 festool_url = 'https://www.festoolrecon.com/'
 r = requests.get(festool_url)
 soup = BeautifulSoup(r.text, 'html.parser')
-title = soup.find('h1', attrs={'class': 'product-single__title'}).text
+product = soup.find('h1', attrs={'class': 'product-single__title'}).text
 
-if title != filecontent:
-    print(f'The Festool Recon Offering has changed to "{title}"')
+if product != filecontent:
+    logger.info(f'The Festool Recon Offering has changed to "{product}"')
     with open(filename, 'w') as f:
-        f.write(title)
+        f.write(product)
 else:
-    print(f'The Festool Recon Offering is still "{filecontent}"')
+    logger.info(f'The Festool Recon Offering is still "{filecontent}"')
     exit(0)
 
-message = f'The Festool Recon Offering is "{title}"'
+message = f'The Festool Recon Offering is "{product}"'
 data = {
 	'token': app_token,
 	'user': user_key,
 	'message': message
 }
 
-print('Sending push notification')
+logger.info('Sending push notification')
 pushover_url = "https://api.pushover.net/1/messages.json"
 requests.post(pushover_url, data=data)
