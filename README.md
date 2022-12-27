@@ -17,3 +17,7 @@ docker run -d \
     festool_bot:latest
 ```
 
+### run
+```
+PUSHOVER_APP_TOKEN="" PUSHOVER_USER_KEY="" STATE_FILE_PATH=/tmp/festool_state.txt python3 check_site.py
+```
