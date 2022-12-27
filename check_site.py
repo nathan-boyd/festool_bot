@@ -19,24 +19,24 @@ if not os.path.exists(filename):
     with open(filename, 'a') as f:
         f.write('nil')
 
-filecontent = ""
+cached_tool = ""
 with open(filename,'r') as f:
-    filecontent = f.read()
+    cached_tool = f.read()
 
 festool_url = 'https://www.festoolrecon.com/'
 r = requests.get(festool_url)
 soup = BeautifulSoup(r.text, 'html.parser')
-product = soup.find('h1', attrs={'class': 'product-single__title'}).text
+current_tool = soup.find('h1', attrs={'class': 'product-single__title'}).text
 
-if product != filecontent:
-    logger.info(f'The Festool Recon Offering has changed to "{product}"')
+if current_tool != cached_tool:
+    logger.info(f'The Festool Recon Offering has changed to "{current_tool}"')
     with open(filename, 'w') as f:
-        f.write(product)
+        f.write(current_tool)
 else:
-    logger.info(f'The Festool Recon Offering is still "{filecontent}"')
+    logger.info(f'The Festool Recon Offering is still "{cached_tool}"')
     exit(0)
 
-message = f'The Festool Recon Offering is "{product}"'
+message = f'The Festool Recon Offering is "{current_tool}"'
 data = {
 	'token': app_token,
 	'user': user_key,
