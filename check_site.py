@@ -19,8 +19,7 @@ pushover_url = "https://api.pushover.net/1/messages.json"
 
 def main():
     if not os.path.exists(filename):
-        open(filename, 'w+').close()
-        with open(filename, 'a') as f:
+        with open(filename, 'w+') as f:
             f.write('nil')
 
     cached_tool = ""
@@ -50,7 +49,7 @@ def send_notification(tool_name):
     data = {
     	'token': app_token,
     	'user': user_key,
-    	'message': f'The Festool Recon Offering is "{tool_name}'
+    	'message': f'The Festool Recon offering has changed to "{tool_name}" {festool_url}'
     }
     requests.post(pushover_url, data=data)
     logger.info('Sent push notification')
