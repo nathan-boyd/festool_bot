@@ -1,2 +1,2 @@
-*/5 * * * * root /usr/local/bin/python3 /app/check_site.py >> /var/log/cron.log 2>&1
+*/10 * * * * root /usr/local/bin/python3 /app/check_site.py >> /var/log/cron.log 2>&1
 # Don't remove the empty line at the end of this file. It is required to run the cron job
